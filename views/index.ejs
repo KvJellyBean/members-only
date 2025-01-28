@@ -1,1 +1,146 @@
-feat: add root views
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head', { title: title } ) %>
+  <body>
+    <%- include('./partials/header') %>
+    <main>
+      <div class="innerHeader">
+        <h2><i class="fa-solid fa-hashtag"></i> General</h2>
+        <div class="linkContainer">
+          <% if(locals.currentUser) { %>
+            <% if(locals.currentUser.memberstatus === "guest") { %>
+              <a href="/join" class="headerLink">Join Member</a>
+            <% } %>
+            <a href="/profile" class="headerLink2">Profile</a>
+          <% } else { %>
+            <a href="/sign-in" class="headerLink">Sign In</a>
+          <% } %>
+        </div>
+      </div>
+
+      <div class="innerBody">
+        <div class="messageBoard">
+          <h3>
+            <i class="fa-solid fa-hashtag"></i>
+            <br />
+            Welcome to JellySphere!
+          </h3>
+
+          <% if(locals.currentUser) { %>
+            <p>Hi <%= locals.currentUser.firstname %>, ready to share your thoughts? Create a post now!</p>
+            <% if(locals.currentUser.memberstatus === "guest") { %>
+              <p>Become a <a href='/join'>member</a> to connect with the community!</p>
+            <% } %>
+          <% } else { %>
+            <p><a href="/sign-up">Sign up</a> to post your story and interact with the community!</p>
+          <% } %>
+
+          <hr />
+
+          <div class="messages">
+            <% messages.map((message, index) => { %>
+            <a href="/message/<%= message.id  %>" class="message">
+              <img
+                src="/logo.webp"
+                <% if(!locals.currentUser || locals.currentUser.memberstatus === "guest") { %>
+                  alt="Profile picture of Anonymous <%= index %>"
+                <% } else { %>
+                  alt="Profile picture of <%= message.user %>"
+                <% } %>
+              />
+              
+              <div class="messageContent">
+                <div class="messageContentTitle">
+                  <h4 class="messageTitle"><%= message.title %></h4>
+                </div>
+
+                <div class="messageContentText">
+                  <p class="messageText">
+                    <span class="messageUser">
+                      <% 
+                        const displayUser = (!locals.currentUser || locals.currentUser.memberstatus === "guest") 
+                          ? "Anonymous" 
+                          : message.user;
+                      %>
+                      <%= displayUser %>:
+                    </span>
+                    <%= message.text %>
+                  </p>
+
+                  <p class="messageTime">
+                    <% 
+                      const displayDate = (!locals.currentUser || locals.currentUser.memberstatus === "guest") 
+                        ? "xx/xx/xxxx xx:xx XX" 
+                        : message.added;
+                    %>
+                    <%= displayDate %>
+                  </p>
+                </div>
+              </div>
+
+              <% if(locals.currentUser && locals.currentUser.isadmin) { %>
+                <div class="postAction">
+                  <p class="deleteButton">Delete</p>
+                </div>
+              <% } %>
+            </a>
+            <% }) %>
+          </div>
+
+          <% if(locals.currentUser) { %>
+          <a href="/message/new" class="addNewButton"
+            ><i class="fa-solid fa-plus"></i> New Post</a
+          >
+          <% } %>
+        </div>
+
+        <%- include('./partials/userList', {Users: Users}) %>
+      </div>
+    </main>
+    <%- include('./partials/footer') %>
+
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/toastify-js"
+    ></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".deleteButton").forEach((button) => {
+          button.addEventListener("click", async (event) => {
+            event.preventDefault();
+
+            const messageElement = button.closest(".message");
+            const id = messageElement.getAttribute("href").split("/")[2];
+
+            try {
+              const response = await fetch(`/message/${id}`, {
+                method: "DELETE",
+              });
+
+              if (response.ok) {
+                Toastify({
+                  text: "Post deleted successfully!",
+                  duration: 2000,
+                  close: true,
+                  position: "right",
+                  stopOnFocus: true,
+                  style: {
+                    background: "linear-gradient(to right, #43b581, #43b581)",
+                  },
+                }).showToast();
+
+                messageElement.remove();
+              } else {
+                alert("Failed to delete message");
+              }
+            } catch (error) {
+              console.error("Error deleting message:", error);
+              alert("Something went wrong. Please try again.");
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
