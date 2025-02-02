@@ -1,0 +1,27 @@
+<div class="userList">
+    <h4>User – <%= Users.length %></h3>
+
+    <ul>
+      <% Users.forEach((user,index) => { %>
+      <li>
+        <img 
+          src="/logo.webp"
+          <% if(!locals.currentUser || locals.currentUser.memberstatus === "guest") { %>
+            alt="Picture of Anonymous <%= index %>"
+          <% } else { %>
+            alt="Picture of <%= user %>"
+          <% } %>
+          width="40"
+        />
+        <p>
+          <% 
+            const displayUser = (!locals.currentUser || locals.currentUser.memberstatus === "guest") 
+              ? "Anonymous" 
+              : user.firstname + " " + user.lastname;
+          %>
+          <%= displayUser %>
+        </p>
+      </li>
+      <% }) %>
+    </ul>
+</div>
