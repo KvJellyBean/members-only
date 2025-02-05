@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head', { title: title } ) %>
+  <body>
+    <%- include('./partials/header') %>
+    <main id="profile">
+      <div class="container">
+        <div class="topHeader">
+          <h2>Profile</h2>
+        </div>
+
+        <div class="profileContent">
+          <div class="topSection">
+            <img src="/logo.webp" alt="Profile picture of <%=
+            locals.currentUser.firstname + " " + locals.currentUser.lastname %>"
+            width="60" />
+            <a href="/logout">Logout</a>
+          </div>
+
+          <div class="midSection">
+            <p>
+              <%= locals.currentUser.firstname + " " +
+              locals.currentUser.lastname %>
+            </p>
+          </div>
+
+          <div class="botSection">
+            <div class="profileData">
+              <p>First name</p>
+              <p><%= locals.currentUser.firstname %></p>
+            </div>
+
+            <div class="profileData">
+              <p>Last name</p>
+              <p><%= locals.currentUser.firstname %></p>
+            </div>
+
+            <div class="profileData">
+              <p>Email</p>
+              <p><%= locals.currentUser.email %></p>
+            </div>
+
+            <div class="profileData">
+              <p>Status</p>
+              <p><%= locals.currentUser.memberstatus %></p>
+            </div>
+
+            <div class="profileData">
+              <p>Account role</p>
+              <p><%= locals.currentUser.isadmin ? "Admin" : "User" %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <%- include('./partials/footer') %>
+  </body>
+</html>
