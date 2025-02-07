@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head', { title: title } ) %>
+  <body>
+    <%- include('./partials/header') %>
+    <main id="joinMember">
+      <div class="container">
+        <img src="/join.png" alt="Decoration image of join member" />
+        <h2>Unlock the JellySphere!</h2>
+        <p>Join now and start your journey with us.</p>
+        <form action="/join" method="post" id="joinMemberForm">
+          <div>
+            <label for="memberCode">Enter the Jelly Pass</label>
+            <input
+              type="text"
+              id="memberCode"
+              name="memberCode"
+              value="<%= data?.memberCode || '' %>"
+              required
+            />
+            <% if (errors && errors.memberCode) { %>
+            <span class="error"><%=errors.memberCode%></span>
+            <% } %>
+          </div>
+
+          <button type="submit">Join</button>
+
+          <a href="/">Go back to Home</a>
+        </form>
+      </div>
+    </main>
+    <%- include('./partials/footer') %>
+  </body>
+</html>
