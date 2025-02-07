@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head', { title: title } ) %>
+  <body>
+    <%- include('./partials/header') %>
+    <main id="getAdmin">
+      <div class="container">
+        <img src="/jellyAdmin.png" alt="Mascot of admin" />
+        <h2>Welcome to the Elite!</h2>
+        <p>Apply now to join the admin circle and take charge.</p>
+        <form action="/getAdmin" method="post" id="getAdminForm">
+          <div>
+            <label for="adminCode">Enter the Jelly Token</label>
+            <input
+              type="password"
+              id="adminCode"
+              name="adminCode"
+              value="<%= data?.adminCode || '' %>"
+              required
+            />
+            <% if (errors && errors.adminCode) { %>
+            <span class="error"><%=errors.adminCode%></span>
+            <% } %>
+          </div>
+
+          <button type="submit">Join</button>
+
+          <a href="/">Go back to Home</a>
+        </form>
+      </div>
+    </main>
+    <%- include('./partials/footer') %>
+  </body>
+</html>
