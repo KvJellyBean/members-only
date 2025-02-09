@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head', { title: title } ) %>
+  <body>
+    <%- include('./partials/header') %>
+    <main id="newMessageMain">
+      <form method="POST" action="/message" id="newMessageForm">
+        <div class="formCard">
+          <legend>New Post</legend>
+          <div class="inputForm">
+            <label for="title"
+              >Title <span style="color: #43b581">*</span></label
+            >
+            <input
+              type="text"
+              id="title"
+              name="title"
+              required
+              maxlength="75"
+            />
+          </div>
+
+          <div class="inputForm">
+            <label for="text"
+              >Message <span style="color: #43b581">*</span></label
+            >
+            <textarea
+              name="text"
+              id="text"
+              cols="30"
+              rows="10"
+              required
+            ></textarea>
+          </div>
+
+          <div class="buttons">
+            <button type="submit">Send</button>
+            <a href="javascript:history.back()" class="">Back</a>
+          </div>
+        </div>
+      </form>
+
+      <%- include('./partials/userList', {Users: Users}) %>
+    </main>
+    <%- include('./partials/footer') %>
+
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/toastify-js"
+    ></script>
+    <script>
+      document
+        .getElementById("newMessageForm")
+        .addEventListener("submit", function (event) {
+          var submitButton = document.getElementById("submitButton");
+          submitButton.disabled = true;
+          submitButton.innerText = "Sending...";
+        });
+    </script>
+  </body>
+</html>
