@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./partials/head', { title: title } ) %>
+  <body>
+    <%- include('./partials/header') %>
+    <main id="messageMain">
+      <div id="messageMainDetail">
+        <div class="messageDetailCard">
+          <h2>Post Detail</h2>
+
+          <div class="messageMainContent">
+            <div class="messageMainContentTitle">
+              <img
+                src="/logo.webp"
+                alt="Profile picture of the user"
+                width="40"
+              />
+              <p>
+                <% 
+                  const displayUser = (!locals.currentUser || locals.currentUser.memberstatus === "guest") 
+                    ? "Anonymous" 
+                    : message.user;
+                %>
+                <%= displayUser %>
+              </p>
+            </div>
+
+            <h3 class="msgTitle"><%= message.title %></h3>
+
+            <p class="msgText"><%= message.text %></p>
+
+            <p class="msgDate">
+              <% 
+                const displayDate = (!locals.currentUser || locals.currentUser.memberstatus === "guest") 
+                  ? "xx/xx/xxxx xx:xx XX" 
+                  : message.added;
+              %>
+              <%= displayDate %>
+            </p>
+          </div>
+
+          <a href="javascript:history.back()" class="">Back</a>
+        </div>
+      </div>
+
+      <%- include('./partials/userList', {Users: Users}) %>
+    </main>
+    <%- include('./partials/footer') %>
+  </body>
+</html>
+
+<!-- TODO: ADJUST STRUKTUR SESUAI DATABASE -->
